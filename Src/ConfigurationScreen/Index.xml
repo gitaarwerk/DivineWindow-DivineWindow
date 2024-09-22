@@ -1,0 +1,306 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd"
+>
+<Script file="Src/ConfigurationScreen/Index.lua"/>
+<Script file="Src/ConfigurationScreen/FrameNames.lua"/>
+<Script file="Src/ConfigurationScreen/Init.lua"/>
+<Script file="Src/ConfigurationScreen/UnlockTable.lua"/>
+<Script file="Src/ConfigurationScreen/GeneralSettings.lua"/>
+<Script file="Src/ConfigurationScreen/SpecialisationSettings.lua"/>
+<Script file="Src/ConfigurationScreen/WindowDropdown.lua"/>
+
+<Frame name="DivineWindow_ConfigurationScreen" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="false" parent="UIParent" clampedToScreen="true">
+    <Size>
+        <AbsDimension x="730" y="600"/>
+    </Size>
+    <Scripts>
+        <OnLoad>
+            self:RegisterForDrag("LeftButton")
+            self:RegisterEvent("ADDON_LOADED")
+            self:RegisterEvent("PLAYER_TALENT_UPDATE")
+            self:RegisterEvent("PLAYER_ENTERING_WORLD")
+            
+            self:SetScript("OnEvent", DivineWindow.ConfigurationScreen.eventHandler);
+            self:SetResizable(true)
+        </OnLoad>
+        <OnDragStart>
+            self:StartMoving()
+        </OnDragStart>
+        <OnDragStop>
+            self:StopMovingOrSizing()
+          </OnDragStop>
+    </Scripts>
+    <Anchors>
+        <Anchor point="CENTER"/>
+    </Anchors>
+
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture name="$parent_Background" setAllPoints="true">
+                <Color r="0" g="0" b="0" a="0.65" />
+            </Texture> 	   
+        </Layer>
+        <Layer level="BORDER" textureSubLevel="-5">
+            <Texture inherits="UI-Frame-InnerBotLeftCorner" parentKey="InsetBorderBottomLeft">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT"  x="0" y="0"/>
+                </Anchors>
+            </Texture>
+            <Texture inherits="UI-Frame-InnerBotRight" parentKey="InsetBorderBottomRight">
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT"  x="0" y="0"/>
+                </Anchors>
+            </Texture>
+            <Texture inherits="_UI-Frame-InnerBotTile" parentKey="InsetBorderTop">
+                <Anchors>
+                    <Anchor x="0" y="2" point="TOPLEFT" relativeKey="$parent.InsetBorderTopLeft" relativePoint="TOPRIGHT"/>
+                    <Anchor x="0" y="2" point="TOPRIGHT" relativeKey="$parent.InsetBorderTopRight" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Texture>
+            <Texture inherits="_UI-Frame-InnerBotTile" parentKey="InsetBorderBottom">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeKey="$parent.InsetBorderBottomLeft" relativePoint="BOTTOMRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.InsetBorderBottomRight" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+            </Texture>
+            <Texture inherits="!UI-Frame-InnerLeftTile" parentKey="InsetBorderLeft">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="0"/>
+                    <Anchor point="BOTTOMLEFT" relativeKey="$parent.InsetBorderBottomRight" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Texture>
+            <Texture inherits="!UI-Frame-InnerRightTile" parentKey="InsetBorderRight">
+                <Anchors>
+                    <Anchor point="TOPRIGHT"  x="0" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.InsetBorderBottomRight" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="ARTWORK">
+            <Texture name="DivineWindow_ConfigurationScreen_Header" file="Interface\DialogFrame\UI-DialogBox-Header">
+                <Size>
+                    <AbsDimension x="450" y="64"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP">
+                        <Offset>
+                            <AbsDimension x="0" y="18"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Texture>
+            <FontString name="DivineWindow_ConfigurationScreen_Header_Text" inherits="GameFontNormal" text="Divine Window">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="DivineWindow_ConfigurationScreen_Header">
+                        <Offset>
+                            <AbsDimension x="0" y="-14"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Button name="$parentButtonClose" inherits="UIPanelCloseButton" >
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+                    <Offset>
+                        <AbsDimension x="8" y="8"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    DivineWindow.ConfigurationScreen.hide();
+                    if (DivineWindowLocalVars.active == false) then
+                        DivineWindow.Interface.hide()
+                    end
+                    </OnClick>
+            </Scripts>
+        </Button>
+            <!-- General tab-->
+            <Frame name="DivineWindow_ConfigurationScreen_General_Screen" hidden="false">
+               <Anchors>
+                   <Anchor point="TOPLEFT"/>
+                   <Anchor point="BOTTOMRIGHT"/>
+               </Anchors>
+               <Layers>
+                   <Layer level="ARTWORK">
+                       
+                   </Layer>
+               </Layers>
+               <Frames>
+               <Slider name="DivineWindow_ConfigurationScreen_InterfaceScale_Slider" inherits="OptionsSliderTemplate" minValue="0.2" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-200" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_InterfaceScale_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setScale(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+        <Slider name="DivineWindow_ConfigurationScreen_InterfaceInCombatOpacity_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-250" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_InterfaceInCombatOpacity_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setInCombatAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+        <Slider name="DivineWindow_ConfigurationScreen_InterfaceOutOfCombatOpacity_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-300" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_InterfaceOutOfCombatOpacity_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setOutOfCombatAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+        <!-- Window style settings -->
+        <Slider name="DivineWindow_ConfigurationScreen_Shading_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-350" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_Shading_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setWindowShadingAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+        <Slider name="DivineWindow_ConfigurationScreen_Graininess_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-400" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_Graininess_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setWindowGrainAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+
+        <Slider name="DivineWindow_ConfigurationScreen_ColorAlpha_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-450" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_ColorAlpha_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setWindowColorAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+        <Slider name="DivineWindow_ConfigurationScreen_BackgroundAlpha_Slider" inherits="OptionsSliderTemplate" minValue="0" maxValue="1" valueStep="0.1">
+            <Size x="185" y="16" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.OutputDeviceDropdown" relativePoint="TOPLEFT" x="200" y="-500" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString name="DivineWindow_ConfigurationScreen_BackgroundAlpha_Slider_Text" parentKey="Label" inherits="GameFontNormalSmall" text="">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-17" y="0"/>
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnValueChanged>DivineWindow.ConfigurationScreen.setWindowBackgroundAlpha(value)</OnValueChanged>
+            </Scripts>
+        </Slider>
+           
+
+    </Frames> 
+               
+           </Frame>  
+            <Frame name="DivineWindow_ConfigurationScreen_Info_Screen" hidden="true">
+               <Layers>
+                    <Layer level="ARTWORK">
+                     <Texture alpha="1" hidden="false" file="Interface\\AddOns\\DivineWindow\\Src\\Assets\\about-page">
+                            <Size>
+                            <AbsDimension x="1024" y="1024"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOP">
+                                    <Offset>
+                                        <AbsDimension x="0" y="18"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>                     
+                    </Layer>
+                </Layers>
+            </Frame> 
+           <Button name="DivineWindow_ConfigurationScreen_General_Tab" inherits="PanelTabButtonTemplate" id="1" text="">
+               <Anchors>
+                   <Anchor point="CENTER" relativePoint="BOTTOMLEFT">
+                       <Offset>
+                           <AbsDimension x="60" y="-12"/>
+                       </Offset>
+                   </Anchor>
+               </Anchors>
+               <Scripts>
+                   <OnClick>
+                       DivineWindow.ConfigurationScreen.openConfigTab(0);
+                        DivineWindow_ConfigurationScreen_Header_Text:SetText(
+                            DivineWindow.Locales[DivineWindow.language].GeneralTab.title 
+                        );
+                   </OnClick>
+               </Scripts>
+           </Button>
+            
+    </Frames> 
+</Frame>
+</Ui>
+

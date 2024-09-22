@@ -1,0 +1,24 @@
+package-as: DivineWindow
+
+enable-nolib-creation: no
+
+move-folders:
+  DivineWindow: DivineWindow
+
+ignore: # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
+  - LICENSE
+  - README.md
+  - curseForgeText.txt
+  - pkgmeta.yaml
+  - .gitignore
+  - .vscode
+  - .git
+  - .github
+  - .gitattributes
+  - .gitmodules
+  - .gitlab-ci.yml
+  - .gitignore
+  - .gitmodules
+  - hashlist.md
+
+license-output: LICENSE.txt

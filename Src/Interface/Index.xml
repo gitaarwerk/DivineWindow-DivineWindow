@@ -1,0 +1,332 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd"
+>
+    <Script file="Src/Interface/Index.lua"/>
+    <Script file="Src/Interface/Interface.lua"/>
+    <Script file="Src/Interface/PlayerStatus.lua"/>
+    <Script file="Src/Interface/PowerBar.lua"/>
+    <Script file="Src/Interface/WindowParts.lua"/>
+    <Frame name="DivineWindow_Interface" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="false" parent="UIParent" clampedToScreen="true">
+    <Scripts>
+      <OnLoad>
+          self.TimeSinceLastUpdate = 0
+          self:RegisterForDrag("LeftButton")
+          self:RegisterEvent("ADDON_LOADED");
+          self:RegisterEvent("PLAYER_REGEN_ENABLED");
+          self:RegisterEvent("PLAYER_REGEN_DISABLED");
+          self:RegisterEvent("PLAYER_LOGOUT");
+          self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+          self:RegisterEvent("UNIT_AURA");
+          self:RegisterEvent("PLAYER_TALENT_UPDATE");
+
+          self:SetScript("OnEvent", DivineWindow.Interface.eventHandler);
+
+      </OnLoad>
+    <OnUpdate> 
+        if (DivineWindow.Interface.onUpdate) then 
+            DivineWindow.Interface.onUpdate(self, elapsed) 
+        end
+    </OnUpdate>
+      <OnDragStart>
+        if not self.isLocked then
+          self:StartMoving()
+        end
+       
+      </OnDragStart>
+      <OnDragStop>
+        self:StopMovingOrSizing()
+        DivineWindow.Interface.savePositionToCharacter()
+      </OnDragStop>
+      </Scripts>
+      <Size>
+        <AbsDimension x="664" y="996" />
+    </Size>
+    <Anchors>
+        <Anchor point="CENTERCENTER"/>
+    </Anchors>
+
+    <Layers>
+        <Layer level="BACKGROUND">
+        <Texture name="DivineWindow_Interface_Window_PLACEMENT_BOX" hidden="true" setAllPoints="true">
+          <Color r="0.5" g="0.5" b="0" a="1" />
+        </Texture> 	
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_BACKGROUND" file="Interface\AddOns\DivineWindow\Src\Windows\Base\Background\0">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+          </Layer>
+          <Layer level="BORDER">
+        <!-- here the actual art work of the class -->
+            <Texture hidden="false" name="DivineWindow_Interface_LEFT_BAR" >
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <!-- here the actual art work of the class -->
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_RIGHT_BAR">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_1">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_2">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_3">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_4">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_5">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_6">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_7">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_8">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_PART_9">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>  
+        </Layer>
+        <Layer level="ARTWORK">
+            <Texture alpha="1"  hidden="false" name="DivineWindow_Interface_GRAIN">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+          <Texture  alpha="1"  hidden="false" name="DivineWindow_Interface_BASE_WINDOW" file="Interface\AddOns\DivineWindow\Src\Windows\Base\base-window">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+          <Texture alpha="1" hidden="false" name="DivineWindow_Interface_BASE_SHADES" file="Interface\AddOns\DivineWindow\Src\Windows\Base\base-shadow">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+          <Texture alpha="1"  hidden="false" name="DivineWindow_Interface_WINDOW">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_SHADES">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>
+          <Texture alpha="1" hidden="false" name="DivineWindow_Interface_STONE_FRAME" file="Interface\AddOns\DivineWindow\Src\Windows\Base\stone-window">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+        </Layer>
+        <Layer level="OVERLAY">
+          
+      <Texture alpha="1" hidden="false" name="DivineWindow_Interface_LEFT_BAR_FX">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+          <Texture  alpha="1" hidden="false" name="DivineWindow_Interface_RIGHT_BAR_FX">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+              <Texture  alpha="1" hidden="false" name="DivineWindow_Interface_FX_1">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+                    <Texture  alpha="1" hidden="false" name="DivineWindow_Interface_FX_2">
+            <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Texture>	
+      </Layer>
+    </Layers>
+    <Frames>
+    </Frames> 
+    </Frame>
+</Ui>
