@@ -1,24 +1,20 @@
 package-as: DivineWindow
 
-enable-nolib-creation: no
+optional-dependencies:
+  - DivineWindow_Paladin
+  - DivineWindow_Enemies
 
-move-folders:
-  DivineWindow: DivineWindow
-
-ignore: # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
-  - LICENSE
-  - README.md
-  - curseForgeText.txt
+ignore:
   - pkgmeta.yaml
   - .gitignore
-  - .vscode
-  - .git
   - .github
-  - .gitattributes
-  - .gitmodules
-  - .gitlab-ci.yml
+  - .release
+  - .vscode
   - .gitignore
-  - .gitmodules
-  - hashlist.md
+  - .vscode
+  - .gitignore
+  - .git
+  - Thumbs.db
+  - .DS_Store
 
 license-output: LICENSE.txt
