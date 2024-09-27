@@ -2,6 +2,7 @@ DivineWindow.ConfigurationScreen.frame = nil;
 DivineWindow.ConfigurationScreen.isOpen = false;
 DivineWindow.ConfigurationScreen.activeTab = 1;
 DivineWindow.ConfigurationScreen.activeSpecialisationName = nil
+DivineWindow.ConfigurationScreen.isMoving = false
 
 function DivineWindow.ConfigurationScreen.userHasSpecialisationSetUp()
     local specialisationExists = not DivineWindow.Utilities.tableIsEmpty(DivineWindowLocalVars.specialisation);
@@ -139,6 +140,9 @@ local function setInitialTranslations()
     _G[DivineWindow.ConfigurationScreen.FrameNames.INTERFACE_BACKGROUND_ALPHA_SLIDER_NAME_TEXT]:SetText(currLanguage
         .GeneralTab
         .windowBackground);
+    _G[DivineWindow.ConfigurationScreen.FrameNames.INTERFACE_BACKGROUND_MOVE_BUTTON]:SetText(currLanguage
+        .GeneralTab
+        .moveButton_on);
 end
 
 local function initializeGenericSettings()

@@ -7,7 +7,7 @@
     <Script file="Src/Interface/PlayerStatus.lua"/>
     <Script file="Src/Interface/PowerBar.lua"/>
     <Script file="Src/Interface/WindowParts.lua"/>
-    <Frame name="DivineWindow_Interface" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="false" parent="UIParent" clampedToScreen="true">
+    <Frame name="DivineWindow_Interface" clipChildren="true" toplevel="false" frameStrata="LOW" movable="false" enableMouse="false" hidden="false" parent="UIParent" clampedToScreen="true">
     <Scripts>
       <OnLoad>
           self.TimeSinceLastUpdate = 0
@@ -29,10 +29,9 @@
         end
     </OnUpdate>
       <OnDragStart>
-        if not self.isLocked then
+        if DivineWindow.ConfigurationScreen.isMoving then
           self:StartMoving()
         end
-       
       </OnDragStart>
       <OnDragStop>
         self:StopMovingOrSizing()
@@ -40,18 +39,26 @@
       </OnDragStop>
       </Scripts>
       <Size>
-        <AbsDimension x="664" y="996" />
+        <AbsDimension x="720" y="996" />
     </Size>
     <Anchors>
         <Anchor point="CENTERCENTER"/>
     </Anchors>
-
     <Layers>
         <Layer level="BACKGROUND">
-        <Texture name="DivineWindow_Interface_Window_PLACEMENT_BOX" hidden="true" setAllPoints="true">
-          <Color r="0.5" g="0.5" b="0" a="1" />
-        </Texture> 	
-            <Texture alpha="1" hidden="false" name="DivineWindow_Interface_BACKGROUND" file="Interface\AddOns\DivineWindow\Src\Windows\Base\Background\0">
+        <Texture name="DivineWindow_Interface_Window_PLACEMENT_BOX" hidden="true" alpha="1" file="Interface\AddOns\DivineWindow\Src\Windows\Base\move-frame">
+        <Size>
+              <AbsDimension x="1024" y="1024"/>
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset>
+                  <AbsDimension x="-180" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+        </Texture> 
+            <Texture name="DivineWindow_Interface_BACKGROUND" alpha="1" hidden="false" file="Interface\AddOns\DivineWindow\Src\Windows\Base\Background\0">
             <Size>
               <AbsDimension x="1024" y="1024"/>
             </Size>
@@ -326,7 +333,5 @@
           </Texture>	
       </Layer>
     </Layers>
-    <Frames>
-    </Frames> 
     </Frame>
 </Ui>

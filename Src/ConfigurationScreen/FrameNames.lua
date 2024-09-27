@@ -31,6 +31,7 @@ DivineWindow.ConfigurationScreen.FrameNames = {
     INTERFACE_BACKGROUND_ALPHA_SLIDER_NAME = "DivineWindow_ConfigurationScreen_BackgroundAlpha_Slider",           -- also set in Index.xml
     INTERFACE_BACKGROUND_ALPHA_SLIDER_NAME_TEXT = "DivineWindow_ConfigurationScreen_BackgroundAlpha_Slider_Text", -- also set in Index.xml
 
+    INTERFACE_BACKGROUND_MOVE_BUTTON = "DivineWindow_ConfigurationScreen_MoveButton",
 
 
     -- specialisation screens

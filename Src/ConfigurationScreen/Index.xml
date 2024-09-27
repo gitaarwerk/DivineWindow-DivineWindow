@@ -11,7 +11,7 @@
 <Script file="Src/ConfigurationScreen/SpecialisationSettings.lua"/>
 <Script file="Src/ConfigurationScreen/WindowDropdown.lua"/>
 
-<Frame name="DivineWindow_ConfigurationScreen" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="false" parent="UIParent" clampedToScreen="true">
+<Frame name="DivineWindow_ConfigurationScreen"  toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="false" parent="UIParent" clampedToScreen="true">
     <Size>
         <AbsDimension x="730" y="600"/>
     </Size>
@@ -23,7 +23,7 @@
             self:RegisterEvent("PLAYER_ENTERING_WORLD")
             
             self:SetScript("OnEvent", DivineWindow.ConfigurationScreen.eventHandler);
-            self:SetResizable(true)
+            self:SetResizable(false)
         </OnLoad>
         <OnDragStart>
             self:StartMoving()
@@ -50,7 +50,7 @@
             </Texture>
             <Texture inherits="UI-Frame-InnerBotRight" parentKey="InsetBorderBottomRight">
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT"  x="0" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
                 </Anchors>
             </Texture>
             <Texture inherits="_UI-Frame-InnerBotTile" parentKey="InsetBorderTop">
@@ -132,6 +132,21 @@
                    </Layer>
                </Layers>
                <Frames>
+                    <Button hidden="false" name="DivineWindow_ConfigurationScreen_MoveButton" inherits="UIPanelButtonTemplate">
+                        <Size x="150" y="30" />
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-100" y="-200"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                DivineWindow.ConfigurationScreen.toggleMoving()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
                <Slider name="DivineWindow_ConfigurationScreen_InterfaceScale_Slider" inherits="OptionsSliderTemplate" minValue="0.2" maxValue="1" valueStep="0.1">
             <Size x="185" y="16" />
             <Anchors>
@@ -260,26 +275,27 @@
                 <OnValueChanged>DivineWindow.ConfigurationScreen.setWindowBackgroundAlpha(value)</OnValueChanged>
             </Scripts>
         </Slider>
-           
-
     </Frames> 
-               
-           </Frame>  
+        </Frame>  
             <Frame name="DivineWindow_ConfigurationScreen_Info_Screen" hidden="true">
+                <Anchors>
+                   <Anchor point="TOPLEFT"/>
+                   <Anchor point="BOTTOMRIGHT"/>
+               </Anchors>
                <Layers>
-                    <Layer level="ARTWORK">
-                     <Texture alpha="1" hidden="false" file="Interface\\AddOns\\DivineWindow\\Src\\Assets\\about-page">
+                    <Layer level="BACKGROUND">
+                        <Texture scale="0.85" alpha="1" hidden="false" name="DivineWindow_ConfigurationScreen_Info_Screen_Background" file="Interface\AddOns\DivineWindow\Src\Assets\about-page">
                             <Size>
-                            <AbsDimension x="1024" y="1024"/>
+                                <AbsDimension x="1024" y="1024"/>
                             </Size>
                             <Anchors>
-                                <Anchor point="TOP">
-                                    <Offset>
-                                        <AbsDimension x="0" y="18"/>
-                                    </Offset>
-                                </Anchor>
+                                <Anchor point="TOPLEFT" relativeTo="$parent">
+                                <Offset>
+                                    <AbsDimension x="-80" y="145"/>
+                                </Offset>
+                            </Anchor>
                             </Anchors>
-                        </Texture>                     
+                        </Texture>                  
                     </Layer>
                 </Layers>
                 <Frames>
@@ -309,7 +325,7 @@
                     </Button>
                 </Frames>
             </Frame> 
-           <Button name="DivineWindow_ConfigurationScreen_General_Tab" inherits="PanelTabButtonTemplate" id="1" text="">
+           <Button name="DivineWindow_ConfigurationScreen_General_Tab" inherits="PanelTabButtonTemplate" id="1">
                <Anchors>
                    <Anchor point="CENTER" relativePoint="BOTTOMLEFT">
                        <Offset>
@@ -326,7 +342,6 @@
                    </OnClick>
                </Scripts>
            </Button>
-            
     </Frames> 
 </Frame>
 </Ui>

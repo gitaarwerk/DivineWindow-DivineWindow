@@ -3,6 +3,17 @@ DivineWindow.Interface.frame = nil;
 DivineWindow.Interface.target = "player";
 
 
+local function setPositionOnLoad()
+    DivineWindow.Interface.frame:ClearAllPoints();
+    DivineWindow.Interface.frame:SetPoint(
+        DivineWindowLocalVars.position[1],
+        DivineWindowLocalVars.position[2],
+        DivineWindowLocalVars.position[3],
+        DivineWindowLocalVars.position[4],
+        DivineWindowLocalVars.position[5]
+    );
+end
+
 function DivineWindow.Interface.savePositionToCharacter()
     local frame = DivineWindow.Interface.frame;
     local anchor, anchorTwo, anchorThree, x, y = frame:GetPoint();
@@ -248,6 +259,8 @@ function DivineWindow.Interface.eventHandler(_, event, arg1, ...)
         else
             DivineWindow.Interface.off();
         end
+
+        setPositionOnLoad();
 
         if (UnitAffectingCombat("player")) then
             DivineWindow.Interface.frame:SetAlpha(DivineWindow.Interface.getInCombatAlpha());
