@@ -24,7 +24,7 @@ local function setupInitialSavedVariables()
 
     if DivineWindow.Utilities.tableIsEmpty(DivineWindowGlobalVars) then
         DivineWindowGlobalVars = {};
-        DivineWindowGlobalVars.debugMode = true
+        DivineWindowGlobalVars.debugMode = false
         DivineWindowGlobalVars.unlockTable = {};
     end
 
