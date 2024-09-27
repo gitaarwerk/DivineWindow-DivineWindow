@@ -1,3 +1,44 @@
+local function rearrangeEditRows(specialisation, parentFrame)
+    local windowSpellConfiguration = DivineWindow.Utilities.getWindowConfiguration(specialisation);
+    local hiddenItems = 0;
+
+    if (windowSpellConfiguration and windowSpellConfiguration.isSetUp) then
+        for index, spellConfiguration in ipairs(windowSpellConfiguration.spells) do
+            local newIndex = index - hiddenItems;
+            local deleted = spellConfiguration.deleted;
+
+            local spellBox = _G[
+            DivineWindow.ConfigurationScreen.FrameNames.SPELL_SPELL_NAME_DROPDOWN_NAME ..
+            specialisation .. "_" .. index];
+            local countTypeBox = _G[
+            DivineWindow.ConfigurationScreen.FrameNames.SPELL_COUNTDOWN_TYPE_DROPDOWN_NAME ..
+            specialisation .. "_" .. index];
+            local windowPartBox = _G[DivineWindow.ConfigurationScreen.FrameNames.SPELL_WINDOW_PART_DROPDOWN_NAME ..
+            specialisation .. "_" .. index];
+            local deleteRowButton = _G[
+            DivineWindow.ConfigurationScreen.FrameNames.SPELL_DELETE_ROW .. specialisation .. '_' .. index]
+            local previewButton = _G
+                [DivineWindow.ConfigurationScreen.FrameNames.SPELL_PREVIEW_BUTTON_NAME .. specialisation .. '_' .. index];
+
+            -- if row is deleted; then just hide them for now, as we cannot remove interface items
+            if (deleted) then
+                hiddenItems = hiddenItems + 1;
+                if (previewButton) then previewButton:Hide(); end
+                if (spellBox) then spellBox:Hide(); end
+                if (countTypeBox) then countTypeBox:Hide(); end
+                if (windowPartBox) then windowPartBox:Hide(); end
+                if (deleteRowButton) then deleteRowButton:Hide(); end
+            else
+                previewButton:SetPoint("TOPLEFT", parentFrame, "TOP", 15, (-40 * newIndex) + 36);
+                spellBox:SetPoint("TOPLEFT", parentFrame, "TOP", 60, (-40 * newIndex) + 36);
+                countTypeBox:SetPoint("TOPLEFT", parentFrame, "TOP", 260, (-40 * newIndex) + 40);
+                windowPartBox:SetPoint("TOPLEFT", parentFrame, "TOP", 445, (-40 * newIndex) + 40);
+                deleteRowButton:SetPoint("TOPLEFT", parentFrame, "TOP", 640, (-40 * newIndex) + 36);
+            end
+        end
+    end
+end
+
 local function addEditBox(parentFrame, name, text, specialisation, saveIndex)
     local editBox = CreateFrame("EditBox", name, parentFrame, "InputBoxTemplate")
     editBox:SetWidth(200)
@@ -217,8 +258,9 @@ local function resizeScrollFrame(items, specialisation, frameToSize)
 end
 
 local function deleteRow(index, specialisation)
-    table.remove(DivineWindowLocalVars.specialisation[specialisation].spells, index);
-    -- hide children
+    DivineWindowLocalVars.specialisation[specialisation].spells[index].deleted = true;
+    _G[DivineWindow.ConfigurationScreen.FrameNames.SPELL_PREVIEW_BUTTON_NAME .. specialisation .. "_" .. index]
+        :SetHeight(0);
     _G[DivineWindow.ConfigurationScreen.FrameNames.SPELL_SPELL_NAME_DROPDOWN_NAME .. specialisation .. "_" .. index]
         :SetHeight(0);
     _G[DivineWindow.ConfigurationScreen.FrameNames.SPELL_COUNTDOWN_TYPE_DROPDOWN_NAME .. specialisation .. "_" .. index]
@@ -228,7 +270,6 @@ local function deleteRow(index, specialisation)
     _G[DivineWindow.ConfigurationScreen.FrameNames.SPELL_DELETE_ROW .. specialisation .. '_' .. index]:SetHeight(0);
 
     local windowSpellConfiguration = DivineWindow.Utilities.getWindowConfiguration(specialisation);
-
     resizeScrollFrame(#windowSpellConfiguration.spells, specialisation);
 end
 
@@ -289,6 +330,7 @@ local function createDeleteButton(buttonName, parentFrame, index, specialisation
     deleteButton:Show();
     deleteButton:SetScript("OnClick", function()
         deleteRow(index, specialisation)
+        rearrangeEditRows(specialisation, parentFrame);
     end)
 
     return deleteButton;
@@ -316,6 +358,13 @@ local function addRow(self, specialisation, parentFrame, chosenWindow)
             windowPart = nil
         });
 
+        local previewButton = createPreviewButton(
+            DivineWindow.ConfigurationScreen.FrameNames.SPELL_PREVIEW_BUTTON_NAME ..
+            specialisation .. '_' .. newId,
+            parentFrame,
+            newId,
+            specialisation);
+
         local spellBox = addEditBox(parentFrame,
             DivineWindow.ConfigurationScreen.FrameNames.SPELL_SPELL_NAME_DROPDOWN_NAME .. specialisation .. "_" .. newId,
             "nothing",
@@ -334,6 +383,7 @@ local function addRow(self, specialisation, parentFrame, chosenWindow)
             parentFrame, newId,
             specialisation);
 
+        previewButton:SetPoint("TOPLEFT", parentFrame, "TOP", 15, (-40 * newId) + 36);
         spellBox:SetPoint("TOPLEFT", parentFrame, "TOP", 60, -40 * newId);
         countTypeBox:SetPoint("TOPLEFT", parentFrame, "TOP", 260, (-40 * newId) + 4);
         windowPartBox:SetPoint("TOPLEFT", parentFrame, "TOP", 445, (-40 * newId) + 4);
@@ -351,38 +401,48 @@ function DivineWindow.ConfigurationScreen.generateEditBoxPerSpecialisation(speci
 
     local windowSpellConfiguration = DivineWindow.Utilities.getWindowConfiguration(specialisation);
     if (windowSpellConfiguration and windowSpellConfiguration.isSetUp) then
+        local hiddenItems = 0;
+
         for index, spellConfiguration in ipairs(windowSpellConfiguration.spells) do
             local spellName = spellConfiguration.name;
             local countType = spellConfiguration.countType;
             local windowPart = spellConfiguration.windowPart;
+            local deleted = spellConfiguration.deleted;
+            local newIndex = index - hiddenItems;
 
-            local spellBox = addEditBox(specialisationFrameScrollBox,
-                DivineWindow.ConfigurationScreen.FrameNames.SPELL_SPELL_NAME_DROPDOWN_NAME ..
-                specialisation .. "_" .. index,
-                spellName, specialisation,
-                index);
-            local countTypeBox = createCountTypeDropDownBox(
-                DivineWindow.ConfigurationScreen.FrameNames.SPELL_COUNTDOWN_TYPE_DROPDOWN_NAME ..
-                specialisation .. "_" .. index,
-                specialisationFrameScrollBox, index, specialisation, countType);
-            local windowPartBox = createWindowPartDropDownBox(
-                DivineWindow.ConfigurationScreen.FrameNames.SPELL_WINDOW_PART_DROPDOWN_NAME ..
-                specialisation .. "_" .. index,
-                specialisationFrameScrollBox, index, specialisation, windowPart, chosenWindow);
-            local deleteRowButton = createDeleteButton(
-                DivineWindow.ConfigurationScreen.FrameNames.SPELL_DELETE_ROW .. specialisation .. '_' .. index,
-                specialisationFrameScrollBox, index,
-                specialisation);
-            local previewButton = createPreviewButton(
-                DivineWindow.ConfigurationScreen.FrameNames.SPELL_PREVIEW_BUTTON_NAME .. specialisation .. '_' .. index,
-                specialisationFrameScrollBox, index,
-                specialisation);
+            if (deleted) then
+                hiddenItems = hiddenItems + 1;
+            else
+                newIndex = newIndex + 1;
+                local spellBox = addEditBox(specialisationFrameScrollBox,
+                    DivineWindow.ConfigurationScreen.FrameNames.SPELL_SPELL_NAME_DROPDOWN_NAME ..
+                    specialisation .. "_" .. index,
+                    spellName, specialisation,
+                    index);
+                local countTypeBox = createCountTypeDropDownBox(
+                    DivineWindow.ConfigurationScreen.FrameNames.SPELL_COUNTDOWN_TYPE_DROPDOWN_NAME ..
+                    specialisation .. "_" .. index,
+                    specialisationFrameScrollBox, index, specialisation, countType);
+                local windowPartBox = createWindowPartDropDownBox(
+                    DivineWindow.ConfigurationScreen.FrameNames.SPELL_WINDOW_PART_DROPDOWN_NAME ..
+                    specialisation .. "_" .. index,
+                    specialisationFrameScrollBox, index, specialisation, windowPart, chosenWindow);
+                local deleteRowButton = createDeleteButton(
+                    DivineWindow.ConfigurationScreen.FrameNames.SPELL_DELETE_ROW .. specialisation .. '_' .. index,
+                    specialisationFrameScrollBox, index,
+                    specialisation);
+                local previewButton = createPreviewButton(
+                    DivineWindow.ConfigurationScreen.FrameNames.SPELL_PREVIEW_BUTTON_NAME ..
+                    specialisation .. '_' .. index,
+                    specialisationFrameScrollBox, index,
+                    specialisation);
 
-            previewButton:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 15, (-40 * index) + 36);
-            spellBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 60, (-40 * index) + 36);
-            countTypeBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 260, (-40 * index) + 40);
-            windowPartBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 445, (-40 * index) + 40);
-            deleteRowButton:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 640, (-40 * index) + 36);
+                previewButton:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 15, (-40 * newIndex) + 36);
+                spellBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 60, (-40 * newIndex) + 36);
+                countTypeBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 260, (-40 * newIndex) + 40);
+                windowPartBox:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 445, (-40 * newIndex) + 40);
+                deleteRowButton:SetPoint("TOPLEFT", specialisationFrameScrollBox, "TOP", 640, (-40 * newIndex) + 36);
+            end
         end
 
         resizeScrollFrame(#windowSpellConfiguration.spells, specialisation, specialisationFrameScrollBox);
@@ -438,6 +498,9 @@ local function generateSpecialisationTab(tabIndex, specialisation)
 
 
     local function recreateEditBoxes(newWindow)
+        if (not newWindow) then
+            return;
+        end
         -- iterate over all spells and recreate the edit boxes
         local windowSpellConfiguration = DivineWindow.Utilities.getWindowConfiguration(specialisation);
         if (windowSpellConfiguration and windowSpellConfiguration.isSetUp) then
@@ -510,6 +573,7 @@ local function generateSpecialisationTab(tabIndex, specialisation)
     addRowButton:Show();
     addRowButton:SetScript("OnClick", function(self)
         addRow(self, specialisation, scrollChildFrame, chosenWindow)
+        rearrangeEditRows(specialisation, scrollChildFrame);
     end)
 
     specialisationFrame:Hide()
@@ -531,6 +595,20 @@ local function generateSpecialisationTab(tabIndex, specialisation)
     DivineWindow.ConfigurationScreen.generateEditBoxPerSpecialisation(scrollChildFrame, specialisation, chosenWindow);
 end
 
+function DivineWindow.ConfigurationScreen.removeDeletedItems()
+    local numberOfSpecialisations = DivineWindow.numberOfSpecialisations;
+    for i = 1, numberOfSpecialisations do
+        local _, specialisation, _, _, _, _ = GetSpecializationInfo(i);
+        local windowSpellConfiguration = DivineWindow.Utilities.getWindowConfiguration(specialisation);
+
+        for index, spellConfiguration in ipairs(windowSpellConfiguration.spells) do
+            if (spellConfiguration.deleted) then
+                table.remove(DivineWindowLocalVars.specialisation[specialisation].spells, index);
+            end
+        end
+    end
+end
+
 -- only use when talents are initialized;
 function DivineWindow.ConfigurationScreen.generateScreensForAllSpecialisations()
     local numberOfSpecialisations = DivineWindow.numberOfSpecialisations;
@@ -546,7 +624,6 @@ function DivineWindow.ConfigurationScreen.generateScreensForAllSpecialisations()
         numberOfSpecialisations];
     infoTab:SetPoint("LEFT", buttonAnchor, "RIGHT", 10, 0)
     infoTab:SetText(DivineWindow.Locales[DivineWindow.language].InfoTab.tabTitle)
-
 
     infoTab:SetScript("OnClick",
         function() DivineWindow.ConfigurationScreen.openConfigTab(numberOfSpecialisations + 1) end);

@@ -42,7 +42,6 @@ function DivineWindow.ConfigurationScreen.prefillTalents()
             }
 
             DivineWindowLocalVars.specialisation[specialisation] = defaultSettings;
-            DevTools_Dump(DivineWindowLocalVars)
         end
     end
 end
@@ -252,7 +251,7 @@ function DivineWindow.ConfigurationScreen.eventHandler(_, event, addonName, ...)
                 showConfigurationScreen = true;
                 hasSetup = true;
             end
-
+            DivineWindow.ConfigurationScreen.removeDeletedItems();
             DivineWindow.ConfigurationScreen.generateScreensForAllSpecialisations();
 
             if (DivineWindow.ConfigurationScreen.frame and hasSetup and showConfigurationScreen) then
