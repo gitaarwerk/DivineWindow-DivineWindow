@@ -74,10 +74,23 @@ function DivineWindow.ConfigurationScreen.openConfigTab(tabIndex)
         _G[DivineWindow.ConfigurationScreen.FrameNames.CONFIG_SCREEN]:Show();
         _G[DivineWindow.ConfigurationScreen.FrameNames.CONFIG_SCREEN_TITLE]:SetText(currLanguage.GeneralTab
             .title);
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_BACKGROUND]:Hide();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_INPUT_NAME]:Hide();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_INPUT_BUTTON_NAME]:Hide();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_TITLE_NAME]:Hide();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_LEFT_NAME]:Hide();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_RIGHT_NAME]:Hide();
     elseif (tabIndex == DivineWindow.numberOfSpecialisations + 1) then
         _G[DivineWindow.ConfigurationScreen.FrameNames.CONFIG_SCREEN]:Hide();
         _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN]:Show();
         _G[DivineWindow.ConfigurationScreen.FrameNames.CONFIG_SCREEN_TITLE]:SetText(currLanguage.InfoTab.title);
+
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_BACKGROUND]:Show();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_INPUT_NAME]:Show();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_INPUT_BUTTON_NAME]:Show();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_TITLE_NAME]:Show();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_LEFT_NAME]:Show();
+        _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_RIGHT_NAME]:Show();
     else
         local _, specialisation = GetSpecializationInfo(tabIndex)
         _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN]:Hide();
@@ -147,6 +160,75 @@ local function initializeGenericSettings()
         .windowBackgroundAlpha);
 end
 
+local function initializeAboutPage()
+    local playerName = UnitName("player");
+    local toReplace = {
+        playerName = playerName
+    }
+    local infoScreen = _G[DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN];
+    local textLeft = infoScreen:CreateFontString(DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_LEFT_NAME,
+        "ARTWORK", "QuestFontNormalSmall")
+    local textStringLeft = DivineWindow.Utilities.parseText(
+        DivineWindow.Locales[DivineWindow.language].InfoTab.textLeft,
+        toReplace);
+    textLeft:SetText(textStringLeft)
+    textLeft:SetWidth(300)
+    textLeft:SetHeight(600)
+
+    local textRight = infoScreen:CreateFontString(
+        DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_RIGHT_NAME, "ARTWORK", "QuestFontNormalSmall")
+    local textStringRight = DivineWindow.Utilities.parseText(
+        DivineWindow.Locales[DivineWindow.language].InfoTab.textRight,
+        toReplace);
+
+    textRight:SetText(textStringRight)
+    textRight:SetWidth(300)
+    textRight:SetHeight(600)
+
+
+    local title = infoScreen:CreateFontString(DivineWindow.ConfigurationScreen.FrameNames.INFO_SCREEN_TEXT_TITLE_NAME,
+        "ARTWORK", "GameFontNormal")
+    local titleString = DivineWindow.Utilities.parseText(
+        DivineWindow.Locales[DivineWindow.language].InfoTab.textTitle,
+        toReplace);
+    title:SetText(titleString)
+    title:SetFont("Interface\\AddOns\\DivineWindow\\Src\\Assets\\BeyondWonderland.ttf", 24, "THICK")
+    title:SetWidth(300)
+    title:SetHeight(200)
+
+
+    title:SetPoint("TOPLEFT", infoScreen, "TOPLEFT", 40, -165);
+    textLeft:SetPoint("TOPLEFT", infoScreen, "TOPLEFT", 45, -200);
+    textRight:SetPoint("TOPLEFT", infoScreen, "TOPLEFT", 400, -50);
+
+    local fontFile, _, fontFlags = textRight:GetFont();
+
+    title:SetJustifyH("LEFT")
+    textRight:SetJustifyH("LEFT")
+    textLeft:SetJustifyH("LEFT")
+    title:SetJustifyV("TOP")
+    textRight:SetJustifyV("TOP")
+    textLeft:SetJustifyV("TOP")
+
+
+    textRight:SetTextColor(0.22, 0.13, 0.07, 0.8)
+    textLeft:SetTextColor(0.22, 0.13, 0.07, 0.8)
+    title:SetTextColor(0, 0, 0, 0.8)
+
+    title:SetShadowColor(0.4, 0.24, 0.13, 0.3)
+    textLeft:SetShadowColor(0.4, 0.24, 0.13, 0.3)
+    textRight:SetShadowColor(0.4, 0.24, 0.13, 0.333)
+
+    textLeft:SetShadowOffset(2, -2)
+    textRight:SetShadowOffset(2, -2)
+    title:SetShadowOffset(2, -2)
+
+    textLeft:SetFont(fontFile, 11, fontFlags);
+    textRight:SetFont(fontFile, 11, fontFlags);
+
+
+    DivineWindow.ConfigurationScreen.InitInput();
+end
 
 function DivineWindow.ConfigurationScreen.eventHandler(_, event, addonName, ...)
     if (event == "ADDON_LOADED" and addonName == "DivineWindow") then
@@ -154,6 +236,7 @@ function DivineWindow.ConfigurationScreen.eventHandler(_, event, addonName, ...)
 
         setInitialTranslations();
         initializeGenericSettings();
+        initializeAboutPage();
     end
 
     if (event == "PLAYER_TALENT_UPDATE") then

@@ -52,4 +52,14 @@ DivineWindow.ConfigurationScreen.FrameNames = {
     SPELL_WINDOW_PART_DROPDOWN_NAME = "WindowPart_",
     SPELL_DELETE_ROW = "DeleteRow_",
     SPELL_ADD_ROW = "AddRow_",
+
+    -- input
+    INFO_SCREEN_INPUT_NAME = "DivineWindow_ConfigurationScreen_Info_Screen_Input",
+    INFO_SCREEN_INPUT_BUTTON_NAME = "DivineWindow_ConfigurationScreen_Info_Screen_Input_Button",
+    INFO_SCREEN_BACKGROUND = "DivineWindow_ConfigurationScreen_Info_Screen_Background",
+    INFO_SCREEN_TEXT_TITLE_NAME = "DivineWindow_ConfigurationScreen_Info_Screen_Title",
+    INFO_SCREEN_TEXT_LEFT_NAME = "DivineWindow_ConfigurationScreen_Info_Screen_Text_Left",
+    INFO_SCREEN_TEXT_RIGHT_NAME = "DivineWindow_ConfigurationScreen_Info_Screen_Text_Right",
 }
+
+DivineWindow.Utilities.debugPrint("Src/ConfigurationScreen/FrameNames.lua", "file")

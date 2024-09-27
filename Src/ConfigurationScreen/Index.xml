@@ -4,6 +4,7 @@
 >
 <Script file="Src/ConfigurationScreen/Index.lua"/>
 <Script file="Src/ConfigurationScreen/FrameNames.lua"/>
+<Script file="Src/ConfigurationScreen/HandleInput.lua"/>
 <Script file="Src/ConfigurationScreen/Init.lua"/>
 <Script file="Src/ConfigurationScreen/UnlockTable.lua"/>
 <Script file="Src/ConfigurationScreen/GeneralSettings.lua"/>
@@ -281,6 +282,32 @@
                         </Texture>                     
                     </Layer>
                 </Layers>
+                <Frames>
+                    <EditBox name="DivineWindow_ConfigurationScreen_Info_Screen_Input" inherits="InputBoxTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-105" y="45"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+                    <Button hidden="false" name="DivineWindow_ConfigurationScreen_Info_Screen_Input_Button" inherits="UIPanelButtonTemplate">
+                        <Size x="50" y="22" />
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-50" y="49"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                DivineWindow.ConfigurationScreen.HandleInput()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
             </Frame> 
            <Button name="DivineWindow_ConfigurationScreen_General_Tab" inherits="PanelTabButtonTemplate" id="1" text="">
                <Anchors>

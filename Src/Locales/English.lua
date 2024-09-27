@@ -14,11 +14,64 @@ DivineWindow.Locales.English.GeneralTab = {
     windowGrain            = "Glass graininess",
     windowColor            = "Colored glass opacity",
     windowBackground       = "Background opacity",
+    moveButton_off         = "Lock window position",
+    moveButton_on          = "Move window",
 }
 
 DivineWindow.Locales.English.InfoTab = {
-    title    = DivineWindow.Locales.English.addonName .. ": " .. "Info/About",
-    tabTitle = "About",
+    title     = DivineWindow.Locales.English.addonName .. ": " .. "Info/About",
+    tabTitle  = "About",
+    okText    = "OK",
+    textLeft  = [[
+Thank you for using Divine Window. Did you know Divine Window is a labor of love? You may be using it right now, and miss more than a few windows to use. Well, don't be alarmed, there's a lot more to come!
+
+Make sure to update regularly, and check regularly for updates on https://www.curseforge.com/wow/addons/divine-window.
+
+Please support me by sharing your feedback, ${playerName}. And if you like the add-on, consider a small donating on Ko-Fi: https://ko-fi.com/darkrideraddons
+
+And before I forget, don't forget to check-out my other plugins:
+- Express Your Elf: A set of buttons that lets you interact with other people using contextual random phrase, fun or awkwardness guaranteed)
+
+- Nurse Nancy: Announce ressurections in a funny way.
+
+- AFK Answering Machine: When you go AFK, this answering machine will notify the other person that you are not available with tons of random messages.
+
+- iTaunted: A small add-on that announce when you taunted.
+
+Check them all out at: https://www.curseforge.com/members/darkrider/projects
+
+Yours truly,
+Darkrider.
+]],
+    textRight = [[
+Help, I can’t find/select any windows
+
+If you installed Divine Window, you may not have installed any mandatory additions to the add-on. Due to the file size of each window, they are split up in various packages.
+
+Check them all out at: https://www.curseforge.com/members/darkrider/projects
+
+
+How does this add-on work?
+
+Divine Window tries to make things as easy as possible for you. However, with all unique interfaces, there may be a little bit of a learning curve.
+
+You can find most common questions and issues on this page:
+https://github.com/gitaarwerk/divine-window/wiki
+
+
+Can’t find your favourite window?
+
+Divine Window takes a lot of time to make. Each window takes about a week to make from begin to end. This means that this add-on will grow over time.
+
+
+A couple of important things:
+
+- If you uninstall the additional windows, make sure they are not used anymore.
+
+- If you accidentally deleted them, and not want to reinstall, an error may appear. In that case, just open the configuration window and select another window.
+
+]],
+    textTitle = "Dear ${playerName},",
 }
 
 -- Specialisations
@@ -145,6 +198,7 @@ DivineWindow.Locales.English.AvailableWindows = {
     title = "Available Divine Windows",
     defaultText = "Select a Divine Window",
 }
+
 
 
 -- Window parts are in the following structure:
