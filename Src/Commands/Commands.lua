@@ -4,15 +4,6 @@ local function toggleDebug()
     print('DW Debug mode: ' .. debugText);
 end
 
-local function dumpVars()
-    local dumpedGlobalVars = DivineWindow.Utilities.dump(DivineWindowGlobalVars);
-    local dumpedSavedVarsPerCharacter = DivineWindow.Utilities.dump(DivineWindowLocalVars);
-    print("");
-    print("DW global saved: " .. dumpedGlobalVars);
-    print("");
-    print("DW local saved: " .. dumpedSavedVarsPerCharacter);
-end
-
 local function resetSavedVariables()
     DivineWindow.Interface.off();
     DivineWindow.ConfigurationScreen:hide();
