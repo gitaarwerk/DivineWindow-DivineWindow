@@ -197,6 +197,7 @@ DivineWindow.Locales.English.PowerTypeColor = {
 DivineWindow.Locales.English.AvailableWindows = {
     title = "Available Divine Windows",
     defaultText = "Select a Divine Window",
+    noWindowsAvailable = "No windows available. Please install one of the Divine Window addOns",
 }
 
 

@@ -2,16 +2,20 @@ DivineWindow.Interface.updateInterface = 0.25;
 DivineWindow.Interface.frame = nil;
 DivineWindow.Interface.target = "player";
 
-
 local function setPositionOnLoad()
     DivineWindow.Interface.frame:ClearAllPoints();
-    DivineWindow.Interface.frame:SetPoint(
-        DivineWindowLocalVars.position[1],
-        DivineWindowLocalVars.position[2],
-        DivineWindowLocalVars.position[3],
-        DivineWindowLocalVars.position[4],
-        DivineWindowLocalVars.position[5]
-    );
+
+    if (DivineWindowLocalVars.position and DivineWindowLocalVars.position[1]) then 
+        DivineWindow.Interface.frame:SetPoint(
+            DivineWindowLocalVars.position[1],
+            DivineWindowLocalVars.position[2],
+            DivineWindowLocalVars.position[3],
+            DivineWindowLocalVars.position[4],
+            DivineWindowLocalVars.position[5]
+        );
+        else
+            DivineWindow.Interface.frame:SetPoint("CENTER", nil, "CENTER", 0, 0);
+        end
 end
 
 function DivineWindow.Interface.savePositionToCharacter()
@@ -262,10 +266,12 @@ function DivineWindow.Interface.eventHandler(_, event, arg1, ...)
 
         setPositionOnLoad();
 
-        if (UnitAffectingCombat("player")) then
-            DivineWindow.Interface.frame:SetAlpha(DivineWindow.Interface.getInCombatAlpha());
-        else
-            DivineWindow.Interface.frame:SetAlpha(DivineWindow.Interface.getOutOfCombatAlpha());
+        if (DivineWindow.Interface.frame) then
+            if (UnitAffectingCombat("player")) then
+                DivineWindow.Interface.frame:SetAlpha(DivineWindow.Interface.getInCombatAlpha() or 1);
+            else
+                DivineWindow.Interface.frame:SetAlpha(DivineWindow.Interface.getOutOfCombatAlpha() or 1);
+            end    
         end
     end
 

@@ -67,7 +67,7 @@ function DivineWindow.ConfigurationScreen.HandleInput()
     input:SetText("");
 
     if (scenarioText) then
-        print(scenarioText)
+        DivineWindow.Utilities.printToUser(scenarioText)
         return;
     end
 

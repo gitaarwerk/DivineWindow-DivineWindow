@@ -33,6 +33,11 @@ function DivineWindow.ConfigurationScreen.createWindowDropdown(frameName, parent
 
         dropdown:SetDefaultText(language.defaultText);
 
+        if (DivineWindow.Utilities.tableIsEmpty(DivineWindow.ConfigurationScreen.AvailableWindows)) then
+            dropdown:SetDefaultText(language.noWindowsAvailable);
+            rootDescription:CreateTitle(language.noWindowsAvailable);
+        end
+
         for key, value in pairs(DivineWindow.ConfigurationScreen.AvailableWindows) do
             local menu = rootDescription:CreateButton(language[key]);
             for key2, value2 in pairs(value) do

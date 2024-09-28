@@ -39,6 +39,10 @@ local function handleOnOff(isOn, facets)
 end
 
 local function getChosenWindowTextureBasePath(specialisation)
+    if (DivineWindow.Utilities.tableIsEmpty(DivineWindow.ConfigurationScreen.AvailableWindows)) then
+        return;
+    end
+    
     if (
             DivineWindowLocalVars
             and DivineWindowLocalVars.specialisation

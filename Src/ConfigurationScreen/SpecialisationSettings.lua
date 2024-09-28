@@ -171,6 +171,11 @@ end
 
 local function windowPartMenuInfo(saveToIndex, specialisation, chosenWindow)
     return function(self)
+        -- prevent errors when there is no window selected
+        if (DivineWindow.Utilities.tableIsEmpty(DivineWindow.ConfigurationScreen.AvailableWindows)) then
+            return;
+        end
+
         local info = UIDropDownMenu_CreateInfo()
         wipe(info);
         info.arg2 = saveToIndex;

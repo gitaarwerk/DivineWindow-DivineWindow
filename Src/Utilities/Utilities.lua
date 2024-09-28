@@ -11,12 +11,16 @@ function DivineWindow.Utilities.dump(o)
   end
 end
 
+function DivineWindow.Utilities.printToUser(message)
+  print("\124cffFF9900[Divine Window]: " .. message)
+end
+
 function DivineWindow.Utilities.debugPrint(message, type)
   if (DivineWindow.debugMode) then
     if (type == "file") then
-      print("[DW loaded file]: " .. message)
+      DivineWindow.Utilities.printToUser("[DW loaded file]: " .. message)
     else
-      print("[DW Debug]: " .. message)
+      DivineWindow.Utilities.printToUser("[DW Debug]: " .. message)
     end
   end
 end
@@ -77,6 +81,10 @@ function DivineWindow.Utilities.capitalizeString(str)
 end
 
 function DivineWindow.Utilities.tableContainsValue(table, val)
+  if (table == nil) then
+    return false
+  end
+  
   for index, value in ipairs(table) do
     if value == val then
       return true
@@ -143,7 +151,7 @@ function DivineWindow.Utilities.classHasSupportedSpecialisation()
 end
 
 function DivineWindow.Utilities.ShowError(message)
-  print("[Divine Window] Error: " .. message)
+  DivineWindow.Utilities.printToUser("[Divine Window] Error: " .. message)
 end
 
 DivineWindow.Utilities.debugPrint("Src/Utilities/Utilities.lua", "file")
