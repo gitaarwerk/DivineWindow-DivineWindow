@@ -2,8 +2,8 @@
 ## Title-enEN: Divine Window
 ## Notes: a non-typical configurable interface using stained glass design
 ## Notes-enEN: a non-typical configurable interface using stained glass design
-## Interface: 110002
-## X-Min-Interface: 110002
+## Interface: 110007
+## X-Min-Interface: 110007
 ## Version: 1
 ## IconTexture: Interface\AddOns\DivineWindow\addonIcon.jpg
 ## Author: Darkrider, Dunemaul (EU)
