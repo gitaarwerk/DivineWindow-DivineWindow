@@ -1,13 +1,15 @@
 ## Title: Divine Window
 ## Title-enEN: Divine Window
+
 ## Notes: a non-typical configurable interface using stained glass design
 ## Notes-enEN: a non-typical configurable interface using stained glass design
 
-## Interface: 11503
-## X-Min-Interface: 11503
+## Interface: 11504
+## X-Min-Interface: 11504
 
 ## Version: @project-version@
 ## IconTexture: Interface\AddOns\DivineWindow\addonIcon.jpg
+
 ## SavedVariables: DivineWindowGlobalVars
 ## SavedVariablesPerCharacter: DivineWindowLocalVars
 
