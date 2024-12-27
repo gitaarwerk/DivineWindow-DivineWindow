@@ -8,8 +8,8 @@ DivineWindow.Locales.English.GeneralTab = {
     title                  = DivineWindow.Locales.English.addonName .. ": " .. "General",
     tabTitle               = "General",
     windowScale            = "Scale",
-    inCombatAlpha          = "Opacity when in combat",
-    outOfCombatCombatAlpha = "Opacity when out of combat",
+    inCombatAlpha          = "Opacity in combat",
+    outOfCombatCombatAlpha = "Opacity out of combat",
     windowShading          = "Shading",
     windowGrain            = "Glass graininess",
     windowColor            = "Colored glass opacity",
@@ -199,8 +199,6 @@ DivineWindow.Locales.English.AvailableWindows = {
     defaultText = "Select a Divine Window",
     noWindowsAvailable = "No windows available. Please install one of the Divine Window addOns",
 }
-
-
 
 -- Window parts are in the following structure:
 -- DivineWindow.Locales.English.PALADIN = {
